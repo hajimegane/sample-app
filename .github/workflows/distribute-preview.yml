@@ -1,0 +1,26 @@
+# 検証環境への配布
+#
+# 戻せる側の操作。再配布で消えるため、完全委譲の対象。
+# ブランチ名をエイリアスにして、変更ごとに触れる場所を用意する。
+name: distribute-preview
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: distribute to preview
+        run: npx wrangler versions upload --tag "${GITHUB_REF_NAME//[^a-zA-Z0-9-]/-}"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

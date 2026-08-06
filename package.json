@@ -1,0 +1,27 @@
+{
+  "name": "sample-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "社内向けの簡易な申請アプリ。AIオートドライビング開発の題材",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "check": "npm run typecheck && npm run test",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "db:migrate:local": "wrangler d1 migrations apply sample-app --local"
+  },
+  "dependencies": {
+    "hono": "^4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5",
+    "typescript": "^5",
+    "vitest": "^3",
+    "wrangler": "^4"
+  }
+}

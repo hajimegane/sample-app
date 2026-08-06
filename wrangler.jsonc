@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sample-app",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-08-01",
+  "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sample-app",
+      // 実際のIDは wrangler d1 create sample-app の出力で埋める
+      "database_id": "PLACEHOLDER"
+    }
+  ]
+}

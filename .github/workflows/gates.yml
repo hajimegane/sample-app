@@ -1,0 +1,36 @@
+# 自動検証（ゲート）
+#
+# これが人のレビューを置き換えるものなので、通ることではなく
+# 落ちうることに価値がある。ゲートを緩めて通すのは、レビューを
+# 撤去した意味を失わせる。
+#
+# workflow_dispatch を持たせてあるのは、Runner ポートが
+# ref を指定して起動するため（adapters/github/index.ts）。
+name: gates
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      unit:
+        description: 作業単位ID
+        required: false
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: typecheck
+        run: npm run typecheck
+      - name: unit-test
+        run: npm run test
+      - name: build
+        run: npm run build
