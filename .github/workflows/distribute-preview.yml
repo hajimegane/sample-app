@@ -2,6 +2,11 @@
 #
 # 戻せる側の操作。再配布で消えるため、完全委譲の対象。
 # ブランチ名をエイリアスにして、変更ごとに触れる場所を用意する。
+#
+# **前提: Worker が既に存在すること。** versions upload は新規 Worker には
+# 使えず、最初の1回だけは wrangler deploy が要る。それは workers.dev の
+# URLを生やす操作なので人が発火する（distribute:production）。
+# 詳細は ../ai-autodriving-kit/adapters/cloudflare/README.md
 name: distribute-preview
 
 on:
