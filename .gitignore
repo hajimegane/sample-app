@@ -2,3 +2,8 @@ node_modules/
 dist/
 .wrangler/
 .DS_Store
+
+# 秘密情報は決してリポジトリに入れない
+.env
+.env.*
+*.env
