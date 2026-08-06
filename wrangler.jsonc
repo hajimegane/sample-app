@@ -8,8 +8,7 @@
     {
       "binding": "DB",
       "database_name": "sample-app",
-      // 実際のIDは wrangler d1 create sample-app の出力で埋める
-      "database_id": "PLACEHOLDER"
+      "database_id": "65e5d3ff-38fa-4950-bd41-31563a248660"
     }
   ]
 }
