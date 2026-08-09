@@ -1,11 +1,8 @@
 /**
  * Routing for the application app.
  *
- * The three features named in the brief -- submit a request, list requests,
- * change a request's status -- have routes and no behaviour. That is
- * deliberate: this unit builds the path (schema, store, layout, gates), and
- * the features are the work that step 2b measures. Shipping them here would
- * leave nothing to measure.
+ * Listing claims is built. Filing one and changing its status are still
+ * placeholders, and will be their own work units.
  *
  * The placeholders deliberately do *not* name a work unit. An earlier version
  * cited AIA-1/2/3 before those issues existed; the Tracker then handed those
@@ -18,6 +15,7 @@
 
 import { Hono } from "hono";
 import type { ApplicationStore } from "./db/applications.ts";
+import { ApplicationList } from "./views/list.tsx";
 import { Layout, NotBuiltYet } from "./views/layout.tsx";
 
 export interface Env {
@@ -32,13 +30,14 @@ export function createApp(store: ApplicationStore) {
 
   app.get("/", (c) => c.redirect("/applications"));
 
-  app.get("/applications", (c) =>
-    c.html(
-      <Layout title="申請一覧" current="list">
-        <NotBuiltYet what="申請一覧の表示" />
+  app.get("/applications", async (c) => {
+    const applications = await store.list();
+    return c.html(
+      <Layout title="経費申請一覧" current="list">
+        <ApplicationList applications={applications} />
       </Layout>,
-    ),
-  );
+    );
+  });
 
   app.get("/applications/new", (c) =>
     c.html(
@@ -60,11 +59,6 @@ export function createApp(store: ApplicationStore) {
       404,
     ),
   );
-
-  // The store is unused until the features land. Referencing it here keeps the
-  // wiring honest -- the app genuinely depends on it, and a broken store shows
-  // up at construction rather than at the first request in production.
-  void store;
 
   return app;
 }

@@ -26,6 +26,13 @@ const STYLES = `
   input, textarea, select { width: 100%; padding: 0.5rem; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: inherit; font: inherit; }
   button { margin-top: 1.5rem; padding: 0.5rem 1.25rem; border: 0; border-radius: 4px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
   .notice { border: 1px dashed var(--line); border-radius: 6px; padding: 1.25rem; color: var(--muted); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .nowrap { white-space: nowrap; }
+  .badge { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.8rem; border: 1px solid currentColor; }
+  .badge-pending { color: var(--muted); }
+  .badge-approved { color: #2f7a4d; }
+  .badge-rejected { color: #a1443a; }
+  @media (prefers-color-scheme: dark) { .badge-approved { color: #6dbf8b; } .badge-rejected { color: #e08a7e; } }
 `;
 
 export const Layout: FC<PropsWithChildren<{ title: string; current?: string }>> = ({
