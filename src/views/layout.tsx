@@ -56,12 +56,18 @@ export const Layout: FC<PropsWithChildren<{ title: string; current?: string }>> 
   </html>
 );
 
-/** Placeholder for a feature that has not been built yet. */
-export const NotBuiltYet: FC<{ what: string; unit: string }> = ({ what, unit }) => (
+/**
+ * Placeholder for a feature that has not been built yet.
+ *
+ * Takes no work-unit identifier on purpose. A placeholder that cites a ticket
+ * number is only useful while the number is right, and the number cannot be
+ * known before the Tracker issues it.
+ */
+export const NotBuiltYet: FC<{ what: string }> = ({ what }) => (
   <div class="notice">
     <p>
       <strong>{what}</strong> はまだ実装されていない。
     </p>
-    <p>作業単位 {unit} で実装する。</p>
+    <p>Tracker の作業単位として起票してから実装する。</p>
   </div>
 );
