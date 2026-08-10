@@ -1,5 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+
+  // 本番。ここに書いたものが `wrangler deploy` の到達先になる。
   "name": "sample-app",
   "main": "src/worker.ts",
   "compatibility_date": "2026-08-01",
@@ -10,5 +12,28 @@
       "database_name": "sample-app",
       "database_id": "65e5d3ff-38fa-4950-bd41-31563a248660"
     }
-  ]
+  ],
+
+  // 検証環境。**本番とは別の Worker、別の D1** を持つ。
+  //
+  // バージョン単位のプレビューURLでは足りない。あれは同じ Worker の
+  // バインディングを共有するため、データベースが本番のままになる。
+  // 検証用のデータを入れれば本番データを触ることになり、
+  // 「戻せる」側の操作として扱えない。
+  //
+  // 環境を分けることで、配布もデータ投入も完全委譲の対象になる。
+  // policy/environments.yaml がこの env 名を検証環境として登録している。
+  "env": {
+    "preview": {
+      "name": "sample-app-preview",
+      "observability": { "enabled": true },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "sample-app-preview",
+          "database_id": "eeadffb7-d3a3-46aa-8557-1b68a6ff4b05"
+        }
+      ]
+    }
+  }
 }

@@ -3,6 +3,14 @@
 # **不可逆な操作。人が発火する**（定義v0.6 §10）。
 # workflow_dispatch のみで、push では起動しない。実績が積まれても
 # 自動化しない領域（policy/boundaries.yaml の distribute:production は fixed）。
+#
+# **起動は kit の adapters/fire.ts から行う。** これが唯一の正規経路で、
+# Runner ポートを経由してこの workflow を起動する（ADR-0015）。
+# GitHub の画面から直接起動することもできてしまうが、その場合は
+# テレメトリに記録が残らない。
+#
+# 前提: CLOUDFLARE_API_TOKEN と CLOUDFLARE_ACCOUNT_ID がリポジトリの
+# secret に設定されていること。未設定のままでは失敗する。
 name: distribute-production
 
 on:
