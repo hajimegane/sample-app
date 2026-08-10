@@ -13,16 +13,16 @@
 # secret に設定されていること。未設定のままでは失敗する。
 name: distribute-production
 
+# 起動しても、production 環境の必須レビュアーが承認するまで進まない。
+#
+# 以前は confirm という入力を要求していたが、環境の保護ルールと重複していた。
+# しかも起動するのは Runner ポート経由のエージェントなので、エージェント自身が
+# 「release」と打つことになり、確認としての意味を失っていた。弱いほうを外した。
 on:
   workflow_dispatch:
-    inputs:
-      confirm:
-        description: 本番に配布する場合は release と入力
-        required: true
 
 jobs:
   production:
-    if: inputs.confirm == 'release'
     runs-on: ubuntu-latest
     environment: production
     steps:
