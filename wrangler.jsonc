@@ -21,17 +21,36 @@
   // 検証用のデータを入れれば本番データを触ることになり、
   // 「戻せる」側の操作として扱えない。
   //
-  // 環境を分けることで、配布もデータ投入も完全委譲の対象になる。
-  // policy/environments.yaml がこの env 名を検証環境として登録している。
+  // **試写（見た目の確認）はここではない。** 試写は wrangler の一時アカウント
+  // へ出す使い捨ての宛先で、資格情報を持たずに作れて60分で消える。
+  // ここは外部接続を含めた動作確認の場所で、workflow から配布する。
+  // エージェントはこの env を直接叩けない（Cloudflare の資格情報を持たない）。
+  //
+  // state/environments.yaml がこの env 名を検証環境として登録している。
   "env": {
+    // 試写。一時アカウントへ出すための env。
+    //
+    // **database_id を書かない。** 一時アカウントは毎回別のアカウントなので、
+    // 事前に知れる id が存在しない。wrangler が名前で確保する。
     "preview": {
       "name": "sample-app-preview",
       "observability": { "enabled": true },
       "d1_databases": [
         {
           "binding": "DB",
-          "database_name": "sample-app-preview",
-          "database_id": "eeadffb7-d3a3-46aa-8557-1b68a6ff4b05"
+          "database_name": "sample-app-preview"
+        }
+      ]
+    },
+
+    "verify": {
+      "name": "sample-app-verify",
+      "observability": { "enabled": true },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "sample-app-verify",
+          "database_id": "09ec9e82-b3e3-43d4-8222-a9d89e7f980c"
         }
       ]
     }
