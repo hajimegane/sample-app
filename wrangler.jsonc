@@ -34,6 +34,7 @@
     // 事前に知れる id が存在しない。wrangler が名前で確保する。
     "preview": {
       "name": "sample-app-preview",
+      "workers_dev": true,
       "observability": { "enabled": true },
       "d1_databases": [
         {
@@ -45,6 +46,10 @@
 
     "verify": {
       "name": "sample-app-verify",
+      // 明示する。省略すると wrangler は「workers.dev を使うか」を判断するため
+      // 配布の前に subdomain を問い合わせ、まだ存在しない Worker に対して
+      // 10007 (This Worker does not exist) で落ちる。初回だけ踏む罠。
+      "workers_dev": true,
       "observability": { "enabled": true },
       "d1_databases": [
         {
